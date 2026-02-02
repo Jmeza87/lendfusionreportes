@@ -1,65 +1,142 @@
-import Image from "next/image";
+'use client'
 
-export default function Home() {
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import { Form, Button, Container, Row, Col, Card, Alert } from 'react-bootstrap'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import styles from './Login.module.css'
+
+export default function LoginPage() {
+  const router = useRouter()
+  const [usuario, setUsuario] = useState('')
+  const [contrasena, setContrasena] = useState('')
+  const [error, setError] = useState('')
+  const [rememberMe, setRememberMe] = useState(false)
+
+  // Verificar si ya está logueado
+  useEffect(() => {
+    const loggedIn = localStorage.getItem('isLoggedIn')
+    if (loggedIn === 'true') {
+      router.push('/dashboard')
+    }
+  }, [router])
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    // Convertir a mayúsculas
+    const usuarioUpper = usuario.toUpperCase()
+    const contrasenaUpper = contrasena.toUpperCase()
+    
+    // Validar credenciales
+    if (usuarioUpper === 'ADMN' && contrasenaUpper === 'IMB2022') {
+      // Guardar estado de login
+      localStorage.setItem('isLoggedIn', 'true')
+      localStorage.setItem('usuario', usuarioUpper)
+      
+      if (rememberMe) {
+        localStorage.setItem('rememberMe', 'true')
+      }
+      
+      // Redirigir al dashboard
+      router.push('/dashboard')
+    } else {
+      setError('Usuario o contraseña incorrectos')
+    }
+  }
+
+  const handleInputChange = (setter: React.Dispatch<React.SetStateAction<string>>) => 
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      // Convertir a mayúsculas en tiempo real
+      setter(e.target.value.toUpperCase())
+    }
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+    <div className={styles.loginContainer}>
+      <Container fluid className="h-100">
+        <Row className="h-100 justify-content-center align-items-center">
+          <Col xs={12} sm={10} md={8} lg={6} xl={4}>
+            <Card className={styles.loginCard}>
+              <Card.Body className="p-5">
+                {/* Logo y título */}
+                <div className="text-center mb-4">
+                  <div className={styles.logoContainer}>
+                    <span className={styles.logoText}>QFI</span>
+                  </div>
+                  <h3 className={styles.companyName}>Financial Services</h3>
+                  <h5 className={styles.welcomeText}>Bienvenido</h5>
+                </div>
+
+                
+
+                {/* Formulario */}
+                <Form onSubmit={handleSubmit}>
+                  {error && (
+                    <Alert variant="danger" className="text-center">
+                      {error}
+                    </Alert>
+                  )}
+
+                  <Form.Group className="mb-3" controlId="formUsuario">
+                    <Form.Label className={styles.formLabel}>Usuario</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="Usuario"
+                      value={usuario}
+                      onChange={handleInputChange(setUsuario)}
+                      className={styles.formControl}
+                      required
+                    />
+                  </Form.Group>
+
+                  <Form.Group className="mb-3" controlId="formContrasena">
+                    <Form.Label className={styles.formLabel}>Contraseña</Form.Label>
+                    <Form.Control
+                      type="password"
+                      placeholder="Contraseña"
+                      value={contrasena}
+                      onChange={handleInputChange(setContrasena)}
+                      className={styles.formControl}
+                      required
+                    />
+                  </Form.Group>
+
+                  <div className="mb-3 form-check">
+                    <input
+                      type="checkbox"
+                      className="form-check-input"
+                      id="rememberMe"
+                      checked={rememberMe}
+                      onChange={(e) => setRememberMe(e.target.checked)}
+                    />
+                    <label className={`form-check-label ${styles.rememberText}`} htmlFor="rememberMe">
+                      Recordarme
+                    </label>
+                  </div>
+
+                  <Button 
+                    variant="primary" 
+                    type="submit" 
+                    className={`w-100 ${styles.loginButton}`}
+                  >
+                    Iniciar sesión
+                  </Button>
+                </Form>
+
+            
+              
+
+                {/* Información de contacto */}
+                <div className="text-center mt-5">
+                  <p className={styles.contactText}>
+                    ¿Necesitas ayuda? <a href="#" className={styles.contactLink}>Contáctanos</a>
+                  </p>
+                </div>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
     </div>
-  );
+  )
 }

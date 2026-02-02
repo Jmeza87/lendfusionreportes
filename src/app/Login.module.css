@@ -1,0 +1,131 @@
+.loginContainer {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 20px;
+}
+
+.loginCard {
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  background: white;
+}
+
+.logoContainer {
+  display: inline-block;
+  background: linear-gradient(45deg, #1890ff, #52c41a);
+  padding: 15px 30px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.logoText {
+  font-size: 32px;
+  font-weight: 900;
+  color: white;
+  letter-spacing: 2px;
+}
+
+.companyName {
+  color: #1890ff;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.welcomeText {
+  color: #666;
+  font-weight: 400;
+  margin-bottom: 20px;
+}
+
+.registerText {
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.loanLink {
+  color: #1890ff;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.loanLink:hover {
+  color: #40a9ff;
+  text-decoration: underline;
+}
+
+.formLabel {
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.formControl {
+  padding: 12px 15px;
+  border-radius: 8px;
+  border: 1px solid #d9d9d9;
+  transition: all 0.3s;
+}
+
+.formControl:focus {
+  border-color: #1890ff;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+.rememberText {
+  color: #666;
+  font-size: 14px;
+}
+
+.loginButton {
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 16px;
+  background: linear-gradient(45deg, #1890ff, #52c41a);
+  border: none;
+  transition: all 0.3s;
+}
+
+.loginButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(24, 144, 255, 0.3);
+}
+
+.forgotPassword {
+  color: #666;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.forgotPassword:hover {
+  color: #1890ff;
+  text-decoration: underline;
+}
+
+.contactText {
+  color: #999;
+  font-size: 12px;
+  margin-bottom: 0;
+}
+
+.contactLink {
+  color: #1890ff;
+  text-decoration: none;
+}
+
+.contactLink:hover {
+  text-decoration: underline;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+  .loginCard {
+    margin: 10px;
+  }
+  
+  .logoText {
+    font-size: 24px;
+  }
+}
