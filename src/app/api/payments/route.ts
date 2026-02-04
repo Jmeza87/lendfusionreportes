@@ -28,24 +28,36 @@ export async function GET(request: NextRequest) {
     
     let query = `
       SELECT 
-        t.date AS Fecha,
-        t.id AS Numero,
-        a.title AS Banco,
-        t.amount AS Cantidad,
-        t.reference AS Referencia,
-        t.description AS Comentario,
-        l.number AS NumeroPrestamo,
-        p.name AS NombreCliente,
-        pi.value AS CedulaRif
-      FROM export_account_transaction t
-      INNER JOIN export_account a ON t.account_id = a.id
-      LEFT JOIN export_loan l ON t.reference LIKE '%' + l.number + '%' 
-        OR t.description LIKE '%' + l.number + '%'
-      LEFT JOIN export_loan_terms lt ON l.id = lt.loan_id
-      LEFT JOIN export_loan_party lp ON lt.id = lp.terms_id AND lp.role = 'Borrower'
-      LEFT JOIN export_party p ON lp.party_id = p.id
-      LEFT JOIN export_party_identifier pi ON p.id = pi.party_id 
-      WHERE 1=1
+    t.date AS Fecha,
+    t.id AS Numero,
+    a.title AS Banco,
+    t.amount AS Cantidad,
+    t.reference AS Referencia,
+    t.description AS Comentario,
+    l.number AS NumeroPrestamo,
+    p.name AS NombreCliente,
+    pi.value AS CedulaRif
+FROM export_account_transaction t
+INNER JOIN export_account a ON t.account_id = a.id
+LEFT JOIN export_loan_transaction_accounttransaction ltat ON t.id = ltat.accounttransaction_id
+LEFT JOIN export_loan_transaction lt ON ltat.transaction_id = lt.id
+LEFT JOIN export_loan l ON lt.loan_id = l.id 
+LEFT JOIN export_loan_terms ltrms ON l.id = ltrms.loan_id AND ltrms.status = 'active'
+LEFT JOIN export_loan_party lp ON ltrms.id = lp.terms_id AND lp.role = 'borrower'
+LEFT JOIN export_party p ON lp.party_id = p.id
+LEFT JOIN export_party_identifier pi ON p.id = pi.party_id 
+    AND pi.status = 'active' 
+-- Excluir préstamos que tienen transacciones de tipo 'writeoff'
+WHERE l.id NOT IN (
+    SELECT DISTINCT loan_id 
+    FROM export_loan_transaction 
+    WHERE type = 'writeoff'
+)
+-- Incluir también transacciones que no están vinculadas a ningún préstamo
+OR l.id IS NULL
+
+
+
     `;
     
     // Aplicar filtros si existen
