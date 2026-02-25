@@ -38,11 +38,11 @@ export default function DashboardPage() {
     },
     {
       id: 3,
-      titulo: 'Reportes de Riesgo',
-      descripcion: 'Análisis de riesgo crediticio',
+      titulo: 'Reporte Estado de Cuenta',
+      descripcion: 'Analisis de Estado Cuenta',
       icono: <BiPieChartAlt size={32} className="text-warning" />,
       color: 'warning',
-      ruta: '/dashboard/reportes-riesgo'
+      ruta: '/dashboard/reportes-estadocuenta'
     },
     {
       id: 4,
