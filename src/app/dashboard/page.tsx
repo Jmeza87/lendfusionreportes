@@ -44,7 +44,7 @@ export default function DashboardPage() {
       color: 'warning',
       ruta: '/dashboard/reportes-estadocuenta'
     },
-    {
+    /*{
       id: 4,
       titulo: 'Reportes de Cobranza',
       descripcion: 'Seguimiento y estado de cobranzas',
@@ -67,7 +67,7 @@ export default function DashboardPage() {
       icono: <BiBarChartAlt2 size={32} className="text-danger" />,
       color: 'danger',
       ruta: '/dashboard/reportes-personalizados'
-    }
+    }*/
   ]
 
   return (
