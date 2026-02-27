@@ -426,38 +426,38 @@ export default function ReportesDebitosPage() {
           )}
         </div>
 
-        {/* Resumen por Analista (opcional, similar al resumen por banco original) */}
+              {/* Resumen por Cliente */}
         {filteredData.length > 0 && (
           <Row className="mt-4">
             <Col>
               <Card>
                 <Card.Header>
-                  <h5 className="mb-0">Resumen por Analista</h5>
+                  <h5 className="mb-0">Resumen por Cliente</h5>
                 </Card.Header>
                 <Card.Body>
                   <Row>
                     {Object.entries(
                       filteredData.reduce((acc, debit) => {
-                        const analista = debit.analista || 'Sin analista'
-                        if (!acc[analista]) acc[analista] = []
-                        acc[analista].push(debit)
+                        const cliente = debit.nombre_cliente || 'Sin cliente'
+                        if (!acc[cliente]) acc[cliente] = []
+                        acc[cliente].push(debit)
                         return acc
                       }, {} as Record<string, DebitData[]>)
-                    ).map(([analista, registros]) => {
-                      const totalAnalista = registros.reduce((sum, d) => sum + d.monto, 0)
-                      const porcentaje = (totalAnalista / totalMonto) * 100
+                    ).map(([cliente, registros]) => {
+                      const totalCliente = registros.reduce((sum, d) => sum + d.monto, 0)
+                      const porcentaje = (totalCliente / totalMonto) * 100
                       return (
-                        <Col md={4} className="mb-3" key={analista}>
+                        <Col md={4} className="mb-3" key={cliente}>
                           <Card className="h-100">
                             <Card.Body>
                               <div className="d-flex justify-content-between align-items-center mb-2">
-                                <h6 className="mb-0">{analista}</h6>
+                                <h6 className="mb-0">{cliente}</h6>
                                 <span className="badge bg-primary">
                                   {registros.length} reg.
                                 </span>
                               </div>
                               <h4 className="text-primary">
-                                ${formatCurrency(totalAnalista)}
+                                ${formatCurrency(totalCliente)}
                               </h4>
                               <div className="progress mb-2">
                                 <div 
