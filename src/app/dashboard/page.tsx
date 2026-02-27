@@ -44,14 +44,14 @@ export default function DashboardPage() {
       color: 'warning',
       ruta: '/dashboard/reportes-estadocuenta'
     },
-    /*{
+    {
       id: 4,
-      titulo: 'Reportes de Cobranza',
-      descripcion: 'Seguimiento y estado de cobranzas',
+      titulo: 'Reporte Notas Debito',
+      descripcion: 'Seguimiento de notas debitos',
       icono: <BiWallet size={32} className="text-info" />,
       color: 'info',
-      ruta: '/dashboard/reportes-cobranza'
-    },
+      ruta: '/dashboard/reportes-debitos'
+    },/*
     {
       id: 5,
       titulo: 'Reportes de Desempeño',
